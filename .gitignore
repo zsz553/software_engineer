@@ -1,0 +1,20 @@
+# Mac
+.DS_Store
+
+# IDEA
+.idea/
+*.iml
+
+# Java / Maven
+target/
+
+# Node / Vue
+node_modules/
+dist/
+
+# Logs
+*.log
+
+# Env / secrets
+.env
+application-local.properties
