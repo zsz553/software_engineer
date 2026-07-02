@@ -1,80 +1,84 @@
 <template>
   <div class="dashboard">
-    <div class="header">
+    <div class="hero">
       <div>
-        <h1>TMDB 电影数据可视化系统</h1>
-        <p>基于 Spring Boot + MySQL + Vue + ECharts</p>
+        <span class="tag">Data Visualization Platform</span>
+        <h1>Movie Analytics Dashboard</h1>
+        <p>TMDB movie data analysis with recognition module.</p>
       </div>
 
-      <button class="logout-btn" @click="logout">退出登录</button>
+      <div class="actions">
+        <button class="ai-btn" @click="goDigit">Handwritten Digit Recognition</button>
+        <button class="logout-btn" @click="logout">Logout</button>
+      </div>
     </div>
 
     <div class="stats">
       <div class="stat-card">
-        <span>电影总数</span>
+        <span>Total Movies</span>
         <strong>{{ movies.length }}</strong>
       </div>
-
       <div class="stat-card">
-        <span>最高评分</span>
+        <span>Highest Rating</span>
         <strong>{{ maxRating }}</strong>
       </div>
-
       <div class="stat-card">
-        <span>语言数量</span>
+        <span>Languages</span>
         <strong>{{ languageCount }}</strong>
       </div>
-
       <div class="stat-card">
-        <span>类型数量</span>
+        <span>Genres</span>
         <strong>{{ genreCount }}</strong>
       </div>
     </div>
 
     <div class="grid">
-      <div class="chart-card large">
-        <h2>评分最高 Top10</h2>
+      <div class="chart-card wide">
+        <h2>Top 10 Rated Movies</h2>
         <div ref="top10ChartRef" class="chart"></div>
       </div>
 
       <div class="chart-card">
-        <h2>语言分布</h2>
+        <h2>Language Distribution</h2>
         <div ref="languageChartRef" class="chart"></div>
       </div>
 
       <div class="chart-card">
-        <h2>年份分布</h2>
+        <h2>Year Distribution</h2>
         <div ref="yearChartRef" class="chart"></div>
       </div>
 
       <div class="chart-card">
-        <h2>类型分布</h2>
+        <h2>Genre Distribution</h2>
         <div ref="genreChartRef" class="chart"></div>
       </div>
     </div>
 
     <div class="table-card">
-      <h2>电影列表</h2>
+      <div class="table-title">
+        <h2>Movie Records</h2>
+        <span>Top 20</span>
+      </div>
 
       <table>
         <thead>
         <tr>
-          <th>排名</th>
-          <th>电影名</th>
-          <th>原名</th>
-          <th>评分</th>
-          <th>年份</th>
-          <th>语言</th>
-          <th>类型</th>
+          <th>Rank</th>
+          <th>Title</th>
+          <th>Original Title</th>
+          <th>Rating</th>
+          <th>Year</th>
+          <th>Language</th>
+          <th>Genre</th>
         </tr>
         </thead>
 
         <tbody>
         <tr v-for="movie in movies.slice(0, 20)" :key="movie.id">
           <td>{{ movie.rankNo }}</td>
-          <td>{{ movie.title }}</td>
+          <td class="title-cell">{{ movie.title }}</td>
           <td>{{ movie.originalTitle }}</td>
-          <td>{{ movie.rating }}</td>
+          <td><span class="rating">{{ movie.rating }}</span></td>
           <td>{{ movie.releaseYear }}</td>
           <td>{{ movie.language }}</td>
           <td>{{ movie.genre }}</td>
@@ -308,7 +312,9 @@ const loadLanguageChart = async () => {
     ]
   });
 };
-
+const goDigit = () => {
+  router.push("/digit");
+};
 const loadGenreChart = async () => {
   const token = localStorage.getItem("token");
   const response = await axios.get("http://localhost:8080/movies/genre-stats",{
@@ -373,129 +379,318 @@ onMounted(async () => {
 
 <style scoped>
 .dashboard {
+
   min-height: 100vh;
-  padding: 40px;
-  background: #f5f7fb;
-  font-family: Arial, sans-serif;
-  color: #1f2937;
+
+  padding: 36px;
+
+  background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 45%, #ecfeff 100%);
+
+  font-family: Inter, Arial, sans-serif;
+
+  color: #111827;
+
 }
 
-.header {
+.hero {
+
   display: flex;
+
   justify-content: space-between;
+
   align-items: center;
-  margin-bottom: 32px;
+
+  padding: 32px;
+
+  border-radius: 24px;
+
+  background: linear-gradient(135deg, #111827, #1e3a8a);
+
+  color: white;
+
+  margin-bottom: 28px;
+
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.22);
+
 }
 
-.header h1 {
+.tag {
+
+  display: inline-block;
+
+  margin-bottom: 12px;
+
+  padding: 6px 12px;
+
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.14);
+
+  font-size: 13px;
+
+}
+
+.hero h1 {
+
   margin: 0;
-  font-size: 32px;
+
+  font-size: 34px;
+
 }
 
-.header p {
-  margin-top: 8px;
-  color: #6b7280;
+.hero p {
+
+  margin: 10px 0 0;
+
+  color: #cbd5e1;
+
+}
+
+.actions {
+
+  display: flex;
+
+  gap: 12px;
+
+}
+
+.ai-btn,
+
+.logout-btn {
+
+  border: none;
+
+  border-radius: 12px;
+
+  padding: 11px 18px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+}
+
+.ai-btn {
+
+  background: #38bdf8;
+
+  color: #0f172a;
+
 }
 
 .logout-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  background: #111827;
+
+  background: rgba(255, 255, 255, 0.12);
+
   color: white;
-  cursor: pointer;
+
 }
 
 .stats {
+
   display: grid;
+
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  margin-bottom: 28px;
+
+  gap: 18px;
+
+  margin-bottom: 24px;
+
+}
+
+.stat-card,
+
+.chart-card,
+
+.table-card {
+
+  background: rgba(255, 255, 255, 0.88);
+
+  border: 1px solid rgba(226, 232, 240, 0.9);
+
+  border-radius: 20px;
+
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+
+  backdrop-filter: blur(10px);
+
 }
 
 .stat-card {
-  background: white;
-  padding: 24px;
-  border-radius: 14px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+
+  padding: 22px;
+
 }
 
 .stat-card span {
-  color: #6b7280;
+
+  color: #64748b;
+
   font-size: 14px;
+
 }
 
 .stat-card strong {
+
   display: block;
+
   margin-top: 10px;
-  font-size: 30px;
+
+  font-size: 32px;
+
 }
 
 .grid {
+
   display: grid;
+
   grid-template-columns: 2fr 1fr;
-  gap: 24px;
+
+  gap: 22px;
+
 }
 
 .chart-card {
-  background: white;
-  padding: 24px;
-  border-radius: 14px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-}
 
-.chart-card.large {
-  grid-column: span 1;
+  padding: 22px;
+
 }
 
 .chart-card h2,
+
 .table-card h2 {
-  margin-top: 0;
-  font-size: 20px;
+
+  margin: 0 0 16px;
+
+  font-size: 18px;
+
 }
 
 .chart {
+
   width: 100%;
-  height: 380px;
+
+  height: 360px;
+
 }
 
 .table-card {
-  margin-top: 28px;
-  background: white;
-  padding: 24px;
-  border-radius: 14px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+
+  margin-top: 24px;
+
+  padding: 22px;
+
+}
+
+.table-title {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+}
+
+.table-title span {
+
+  color: #64748b;
+
+  font-size: 13px;
+
 }
 
 table {
+
   width: 100%;
+
   border-collapse: collapse;
+
+  overflow: hidden;
+
 }
 
 th {
+
   text-align: left;
-  color: #6b7280;
-  font-weight: 600;
-  padding: 12px;
+
+  color: #64748b;
+
+  font-weight: 700;
+
+  font-size: 13px;
+
+  padding: 13px 10px;
+
   border-bottom: 1px solid #e5e7eb;
+
 }
 
 td {
-  padding: 12px;
-  border-bottom: 1px solid #f0f0f0;
+
+  padding: 13px 10px;
+
+  border-bottom: 1px solid #f1f5f9;
+
+  color: #334155;
+
+  font-size: 14px;
+
 }
 
 tr:hover {
-  background: #f9fafb;
+
+  background: #f8fafc;
+
+}
+
+.title-cell {
+
+  color: #0f172a;
+
+  font-weight: 700;
+
+}
+
+.rating {
+
+  display: inline-block;
+
+  padding: 4px 8px;
+
+  border-radius: 999px;
+
+  background: #dbeafe;
+
+  color: #1d4ed8;
+
+  font-weight: 700;
+
 }
 
 @media (max-width: 900px) {
+
+  .hero {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 18px;
+
+  }
+
   .stats {
+
     grid-template-columns: repeat(2, 1fr);
+
   }
 
   .grid {
+
     grid-template-columns: 1fr;
+
   }
+
 }
 </style>

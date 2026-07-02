@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import LoginView from "../views/LoginView.vue";
 import MovieView from "../views/MovieView.vue";
+import DigitRecognitionView from "../views/DigitRecognitionView.vue";
 
 const routes = [
     {
@@ -11,6 +12,10 @@ const routes = [
     {
         path: "/movies",
         component: MovieView
+    },
+    {
+        path: "/digit",
+        component: DigitRecognitionView
     }
 ];
 

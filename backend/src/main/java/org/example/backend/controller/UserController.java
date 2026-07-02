@@ -24,7 +24,7 @@ public class UserController {
         User existingUser = userRepository.findByUsername(request.getUsername());
 
         if (existingUser != null) {
-            return "用户名已存在";
+            return "Username already exists.";
         }
 
         User user = new User();
@@ -33,21 +33,21 @@ public class UserController {
 
         userRepository.save(user);
 
-        return "注册成功";
+        return "Registered successfully";
     }
 
     @PostMapping("/login")
     public Object login(@RequestBody UserRequest request) {
         User user = userRepository.findByUsername(request.getUsername());
         if (user == null) {
-            return "用户不存在";
+            return "The user does not exist.";
         }
         if (!user.getPassword().equals(request.getPassword())) {
-            return "密码错误";
+            return "Password Incorrect";
         }
         String token = JwtUtil.generateToken(user.getUsername());
         return new LoginResponse(
-                "登录成功",
+                "Login successfully",
                 user.getUsername(),
                 token
         );

@@ -1,47 +1,41 @@
 <template>
   <div class="login-page">
-    <div class="intro">
-      <h1>TMDB 电影数据分析系统</h1>
-      <p>基于 Spring Boot、MySQL、Vue 和 ECharts 构建的电影数据可视化平台。</p>
+    <section class="intro">
+      <div class="badge">Data Visualization Platform</div>
+
+      <h1>Movie Data Analytics</h1>
+
 
       <div class="features">
-        <span>电影 Top100</span>
-        <span>评分分析</span>
-        <span>类型统计</span>
-        <span>语言分布</span>
+        <span>TMDB Analytics</span>
+        <span>ECharts Dashboard</span>
+        <span>Neural Network</span>
+        <span>Image Recognition</span>
       </div>
-    </div>
+    </section>
 
-    <div class="auth-card">
-      <h2>{{ isLogin ? "用户登录" : "用户注册" }}</h2>
+    <section class="auth-card">
+      <h2>{{ isLogin ? "Welcome back" : "Create account" }}</h2>
       <p class="subtitle">
-        {{ isLogin ? "登录后进入电影数据仪表盘" : "创建账号后即可登录系统" }}
+        {{ isLogin ? "After logging in, you will enter the data analysis platform." : "After registering your account, start using the system." }}
       </p>
 
-      <input
-          v-model="form.username"
-          placeholder="请输入用户名"
-      />
-
-      <input
-          v-model="form.password"
-          type="password"
-          placeholder="请输入密码"
-      />
+      <input v-model="form.username" placeholder="Username" />
+      <input v-model="form.password" type="password" placeholder="Password" />
 
       <button @click="submit">
-        {{ isLogin ? "登录" : "注册" }}
+        {{ isLogin ? "Login" : "Register" }}
       </button>
 
       <p class="message">{{ message }}</p>
 
       <p class="switch">
-        {{ isLogin ? "还没有账号？" : "已有账号？" }}
+        {{ isLogin ? "No account?" : "Already have account?" }}
         <span @click="toggleMode">
-          {{ isLogin ? "去注册" : "去登录" }}
+          {{ isLogin ? "Register" : "Login" }}
         </span>
       </p>
-    </div>
+    </section>
   </div>
 </template>
 
@@ -69,7 +63,7 @@ const toggleMode = () => {
 
 const submit = async () => {
   if (!form.username || !form.password) {
-    message.value = "请输入用户名和密码";
+    message.value = "Please enter your username and password.";
     return;
   }
 
@@ -84,7 +78,7 @@ const submit = async () => {
 
   message.value = response.data;
 
-  if (response.data.message === "登录成功") {
+  if (response.data.message === "Login successfully") {
     localStorage.setItem("token", response.data.token);
     localStorage.setItem("username", response.data.username);
     router.push("/movies");
@@ -96,109 +90,139 @@ const submit = async () => {
 .login-page {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  background: linear-gradient(135deg, #111827, #1f2937);
+  grid-template-columns: 1.15fr 0.85fr;
+  background:
+      radial-gradient(circle at top left, rgba(56, 189, 248, 0.28), transparent 32%),
+      radial-gradient(circle at bottom right, rgba(99, 102, 241, 0.32), transparent 34%),
+      linear-gradient(135deg, #020617, #0f172a 55%, #111827);
   color: white;
+  font-family: Inter, Arial, sans-serif;
 }
 
 .intro {
   padding: 120px 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.badge {
+  width: fit-content;
+  margin-bottom: 24px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.16);
+  border: 1px solid rgba(125, 211, 252, 0.28);
+  color: #bae6fd;
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .intro h1 {
-  font-size: 48px;
-  margin-bottom: 20px;
+  margin: 0;
+  max-width: 620px;
+  font-size: 58px;
+  line-height: 1.05;
+  letter-spacing: -1.5px;
 }
 
 .intro p {
   max-width: 560px;
+  margin-top: 22px;
   line-height: 1.8;
-  color: #d1d5db;
+  color: #cbd5e1;
   font-size: 18px;
 }
 
 .features {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 12px;
   margin-top: 36px;
 }
 
 .features span {
   padding: 10px 16px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.12);
-  color: #e5e7eb;
+  background: rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .auth-card {
   align-self: center;
   margin-right: 80px;
   padding: 42px;
-  background: white;
-  color: #111827;
-  border-radius: 18px;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+  background: rgba(255, 255, 255, 0.96);
+  color: #0f172a;
+  border-radius: 26px;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.38);
 }
 
 .auth-card h2 {
   margin: 0;
-  font-size: 30px;
+  font-size: 32px;
+  letter-spacing: -0.5px;
 }
 
 .subtitle {
   margin: 10px 0 28px;
-  color: #6b7280;
+  color: #64748b;
 }
 
 input {
   width: 100%;
-  padding: 14px;
+  padding: 15px;
   margin-bottom: 16px;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
+  border: 1px solid #dbe3ef;
+  border-radius: 14px;
   box-sizing: border-box;
   font-size: 15px;
+  background: #f8fafc;
 }
 
 input:focus {
   outline: none;
-  border-color: #2563eb;
+  border-color: #38bdf8;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15);
 }
 
 button {
   width: 100%;
-  padding: 14px;
-  margin-top: 4px;
+  padding: 15px;
+  margin-top: 6px;
   border: none;
-  border-radius: 10px;
-  background: #2563eb;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #2563eb, #38bdf8);
   color: white;
   font-size: 16px;
+  font-weight: 800;
   cursor: pointer;
 }
 
 button:hover {
-  background: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.25);
 }
 
 .message {
-  height: 22px;
+  min-height: 22px;
   margin-top: 16px;
   color: #2563eb;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .switch {
   margin-top: 18px;
-  color: #6b7280;
+  color: #64748b;
   text-align: center;
 }
 
 .switch span {
   color: #2563eb;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 800;
 }
 
 @media (max-width: 900px) {
@@ -207,11 +231,11 @@ button:hover {
   }
 
   .intro {
-    padding: 60px 32px;
+    padding: 60px 32px 30px;
   }
 
   .intro h1 {
-    font-size: 34px;
+    font-size: 40px;
   }
 
   .auth-card {
